@@ -5,6 +5,7 @@ import {
 	useUpdatePassportStatusMutation,
 } from "@/redux/api/adminApi";
 import moment from "moment";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React from "react";
 
