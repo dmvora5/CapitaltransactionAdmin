@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import APICallStatushandler from "@/components/Shared/APICallStatushandler";
-import Loader from "@/components/Shared/Loader";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -23,6 +22,11 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "../../ui/select";
+import dynamic from "next/dynamic";
+
+const Loader = dynamic(() => import("@/components/Shared/Loader"), {
+	ssr: false,
+});
 
 const formSchema = z.object({
 	type: z.string().min(2, "type must be at least 2 characters"),
