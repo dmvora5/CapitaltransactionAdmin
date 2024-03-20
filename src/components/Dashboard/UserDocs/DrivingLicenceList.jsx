@@ -9,7 +9,11 @@ import { useGetAllDrivingLicenceQuery } from "@/redux/api/adminApi";
 import Link from "next/link";
 import React, { useState } from "react";
 import moment from "moment";
-import Loader from "@/components/Shared/Loader";
+import dynamic from "next/dynamic";
+
+const Loader = dynamic(() => import("@/components/Shared/Loader"), {
+	ssr: false,
+});
 
 const DrivingLicenceList = () => {
 	const [page, setPage] = useState(1);
