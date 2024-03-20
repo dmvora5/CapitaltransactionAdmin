@@ -4,6 +4,7 @@ import {
 	useGetDigitalIdQuery,
 	useUpdateDigitalIdStatusMutation,
 } from "@/redux/api/adminApi";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
 const Loader = dynamic(() => import("@/components/Shared/Loader"), {
