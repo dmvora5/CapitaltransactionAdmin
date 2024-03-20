@@ -1,27 +1,24 @@
+import { useRouter } from "next/router";
 import APICallStatushandler from "@/components/Shared/APICallStatushandler";
 import { Button } from "@/components/ui/button";
-import {
-	useGetPassportQuery,
-	useUpdatePassportStatusMutation,
-} from "@/redux/api/adminApi";
+import dynamic from "next/dynamic";
 import moment from "moment";
-import { useRouter } from "next/router";
-import React from "react";
+import {
+	useGetRealEstateQuery,
+	useUpdateRealEstateStatusMutation,
+} from "@/redux/api/adminApi";
 
 const Loader = dynamic(() => import("@/components/Shared/Loader"), {
 	ssr: false,
 });
-
-const PassportDetails = () => {
+const RealEstateDetails = () => {
 	const router = useRouter();
 
-	const { data, isLoading, isSuccess, isError, error } = useGetPassportQuery(
-		router.query.id,
-		{
+	const { data, isLoading, isSuccess, isError, error } =
+		useGetRealEstateQuery(router.query.id, {
 			skip: !router.query.id,
-		}
-	);
-	const [submit, statusOption] = useUpdatePassportStatusMutation();
+		});
+	const [submit, statusOption] = useUpdateRealEstateStatusMutation();
 
 	const updateStatus = () => {
 		submit({
@@ -43,23 +40,27 @@ const PassportDetails = () => {
 						<p className="flex-1">{data?.data?.fullName}</p>
 					</div>
 					<div className="flex px-4 py-2">
-						<p className="w-1/6">Nationality :</p>
-						<p className="flex-1">{data?.data?.nationality}</p>
-					</div>
-					<div className="flex px-4 py-2">
-						<p className="w-1/6">Dob :</p>
+						<p className="w-1/6">Location</p>
 						<p className="flex-1">
-							{moment(data?.data?.dob).format("L")}
+							{data?.data?.location?.coordinates?.join(",")}
 						</p>
 					</div>
 					<div className="flex px-4 py-2">
-						<p className="w-1/6">Passport No :</p>
-						<p className="flex-1">{data?.data?.passportNo}</p>
+						<p className="w-1/6">Address</p>
+						<p className="flex-1">{data?.data?.address}</p>
+					</div>
+					<div className="flex px-4 py-2">
+						<p className="w-1/6">Property Address :</p>
+						<p className="flex-1">{data?.data?.propertyAddress}</p>
+					</div>
+					<div className="flex px-4 py-2">
+						<p className="w-1/6">Email :</p>
+						<p className="flex-1">{data?.data?.email}</p>
 					</div>
 				</div>
-				<div className="h-52">
-					<img src={data?.data?.frontImage} className="h-full" />
-				</div>
+			</div>
+			<div className="flex gap-x-4">
+				<img src={data?.data?.images[0]?.url} className="h-52" />
 			</div>
 			<div className="p-5 text-center">
 				<Button
@@ -74,4 +75,4 @@ const PassportDetails = () => {
 	);
 };
 
-export default PassportDetails;
+export default RealEstateDetails;

@@ -46,6 +46,11 @@ const Menu = [
 		path: "/dashboard/userdocs",
 		subRoute: [
 			{
+				name: "List DigitalId",
+				Icon: LayoutDashboard,
+				path: "/dashboard/userdocs/digitalid/",
+			},
+			{
 				name: "List Licence",
 				Icon: LayoutDashboard,
 				path: "/dashboard/userdocs/drivinglicence",
@@ -54,6 +59,23 @@ const Menu = [
 				name: "List Passport",
 				Icon: LayoutDashboard,
 				path: "/dashboard/userdocs/passport",
+			},
+		],
+	},
+	{
+		name: "Property",
+		Icon: LayoutDashboard,
+		path: "/dashboard/property",
+		subRoute: [
+			{
+				name: "List RealEstate",
+				Icon: LayoutDashboard,
+				path: "/dashboard/property/realestate",
+			},
+			{
+				name: "List Equipment",
+				Icon: LayoutDashboard,
+				path: "/dashboard/property/equipment",
 			},
 		],
 	},

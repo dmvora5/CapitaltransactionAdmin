@@ -88,16 +88,16 @@ const CategoryList = () => {
 							))}
 						</tbody>
 					</table>
-					<div className="my-6 flex justify-center">
-						{data?.count > limit && (
+					{data?.count > limit && (
+						<div className="my-6 flex justify-center">
 							<EllipsisPagination
 								count={data?.count || 0}
 								limit={limit}
 								currentPage={page}
 								handlePageChange={setPage}
 							/>
-						)}
-					</div>
+						</div>
+					)}
 				</div>
 			</div>
 		</>

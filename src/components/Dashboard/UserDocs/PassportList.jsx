@@ -22,7 +22,7 @@ const PassportList = () => {
 				options={{ data, isLoading, isSuccess, error, isError }}
 			/>
 			<h2 className="font-medium text-3xl text-[#333333]">
-				Driving Licenece List
+				Passport List
 			</h2>
 			<div className="bg-white space-y-4 p-6 mt-8">
 				<Search

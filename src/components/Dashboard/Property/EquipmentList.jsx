@@ -1,22 +1,24 @@
-// import APICallStatushandler from "@/components/Shared/APICallStatushandler";
 import EllipsisPagination from "@/components/Shared/EllipsisPagination";
 import Search from "@/components/Shared/Search";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { limit } from "@/constant";
 import { PATH } from "@/path";
-import { useGetAllDrivingLicenceQuery } from "@/redux/api/adminApi";
+import { useGetAllEquipmentQuery } from "@/redux/api/adminApi";
+import moment from "moment";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import React, { useState } from "react";
-import moment from "moment";
-import Loader from "@/components/Shared/Loader";
 
-const DrivingLicenceList = () => {
+const Loader = dynamic(() => import("@/components/Shared/Loader"), {
+	ssr: false,
+});
+const EquipmentList = () => {
 	const [page, setPage] = useState(1);
 	const [search, setSearch] = useState();
 
 	const { data, isLoading, isSuccess, error, isError } =
-		useGetAllDrivingLicenceQuery({ page, limit: limit, search });
+		useGetAllEquipmentQuery({ page, limit: limit, search });
 
 	return (
 		<>
@@ -25,7 +27,7 @@ const DrivingLicenceList = () => {
 			/> */}
 			{isLoading && <Loader />}
 			<h2 className="font-medium text-3xl text-[#333333]">
-				Driving Licenece List
+				Equipment List
 			</h2>
 			<div className="bg-white space-y-4 p-6 mt-8">
 				<Search
@@ -42,19 +44,19 @@ const DrivingLicenceList = () => {
 									No.
 								</th>
 								<th scope="col" className="py-3 px-6 border">
-									Full Name
+									Vehical Id No.
 								</th>
 								<th scope="col" className="py-3 px-6 border">
-									Customer Id
+									Title
 								</th>
 								<th scope="col" className="py-3 px-6 border">
-									Dob
+									Make Year
 								</th>
 								<th scope="col" className="py-3 px-6 border">
-									Gender
+									Fuel
 								</th>
 								<th scope="col" className="py-3 px-6 border">
-									Address
+									PriorTitleNo
 								</th>
 								<th scope="col" className="py-3 px-6 border">
 									Action
@@ -71,25 +73,25 @@ const DrivingLicenceList = () => {
 										{(page - 1) * limit + (index + 1)}
 									</td>
 									<td className="py-2 px-6 border">
-										{item.fullName}
+										{item.vehicalIdetificationNo}
 									</td>
 									<td className="py-2 px-6 border">
-										{item.customerId}
+										{item.titleNo}
 									</td>
 									<td className="py-2 px-6 border">
-										{moment(item.dob).format("L")}
+										{moment(item?.year).format("L")}
 									</td>
 									<td className="py-2 px-6 border">
-										{item.gender}
+										{item.Fuel}
 									</td>
 									<td className="py-2 px-6 border">
-										{item.address?.slice(0, 20)}...
+										{item.PriorTitleNo}
 									</td>
 
 									<td className="py-2 flex justify-center gap-x-4 items-center px-2 border">
 										<Button variant="outline" size="sm">
 											<Link
-												href={`${PATH.userDocsLicence}${item._id}`}
+												href={`${PATH.userEquipment}${item._id}`}
 												variant="outline"
 												size="sm"
 											>
@@ -101,20 +103,20 @@ const DrivingLicenceList = () => {
 							))}
 						</tbody>
 					</table>
-					<div className="my-6 flex justify-center">
-						{data?.count > limit && (
+					{data?.count > limit && (
+						<div className="my-6 flex justify-center">
 							<EllipsisPagination
 								count={data?.count || 0}
 								limit={limit}
 								currentPage={page}
 								handlePageChange={setPage}
 							/>
-						)}
-					</div>
+						</div>
+					)}
 				</div>
 			</div>
 		</>
 	);
 };
 
-export default DrivingLicenceList;
+export default EquipmentList;

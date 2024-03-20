@@ -4,6 +4,9 @@ export const PATH = {
 	categoryList: "/dashboard/category/list",
 	userDocsLicence: "/dashboard/userdocs/drivinglicence/",
 	userDocePassport: "/dashboard/userdocs/passport/",
+	userDocsDigitalId: "/dashboard/userdocs/digitalid/",
+	userRealEstate: "/dashboard/property/realestate/",
+	userEquipment: "/dashboard/property/equipment/",
 };
 
 export const protectedRoutes = [

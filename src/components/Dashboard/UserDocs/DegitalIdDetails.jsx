@@ -1,27 +1,25 @@
 import APICallStatushandler from "@/components/Shared/APICallStatushandler";
 import { Button } from "@/components/ui/button";
 import {
-	useGetPassportQuery,
-	useUpdatePassportStatusMutation,
+	useGetDigitalIdQuery,
+	useUpdateDigitalIdStatusMutation,
 } from "@/redux/api/adminApi";
-import moment from "moment";
 import { useRouter } from "next/router";
-import React from "react";
 
 const Loader = dynamic(() => import("@/components/Shared/Loader"), {
 	ssr: false,
 });
 
-const PassportDetails = () => {
+const DegitalIdDetails = () => {
 	const router = useRouter();
 
-	const { data, isLoading, isSuccess, isError, error } = useGetPassportQuery(
+	const { data, isLoading, isSuccess, isError, error } = useGetDigitalIdQuery(
 		router.query.id,
 		{
 			skip: !router.query.id,
 		}
 	);
-	const [submit, statusOption] = useUpdatePassportStatusMutation();
+	const [submit, statusOption] = useUpdateDigitalIdStatusMutation();
 
 	const updateStatus = () => {
 		submit({
@@ -43,18 +41,20 @@ const PassportDetails = () => {
 						<p className="flex-1">{data?.data?.fullName}</p>
 					</div>
 					<div className="flex px-4 py-2">
-						<p className="w-1/6">Nationality :</p>
-						<p className="flex-1">{data?.data?.nationality}</p>
+						<p className="w-1/6">Card No :</p>
+						<p className="flex-1">{data?.data?.cardNo}</p>
 					</div>
 					<div className="flex px-4 py-2">
-						<p className="w-1/6">Dob :</p>
-						<p className="flex-1">
-							{moment(data?.data?.dob).format("L")}
-						</p>
+						<p className="w-1/6">Email :</p>
+						<p className="flex-1">{data?.data?.email}</p>
 					</div>
 					<div className="flex px-4 py-2">
-						<p className="w-1/6">Passport No :</p>
-						<p className="flex-1">{data?.data?.passportNo}</p>
+						<p className="w-1/6">Phone No :</p>
+						<p className="flex-1">{data?.data?.phoneNo}</p>
+					</div>
+					<div className="flex px-4 py-2">
+						<p className="w-1/6">Country :</p>
+						<p className="flex-1">{data?.data?.country}</p>
 					</div>
 				</div>
 				<div className="h-52">
@@ -74,4 +74,4 @@ const PassportDetails = () => {
 	);
 };
 
-export default PassportDetails;
+export default DegitalIdDetails;

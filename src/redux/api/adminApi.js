@@ -3,7 +3,14 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const adminApi = createApi({
 	baseQuery: baseQueryWithAuth,
-	tagTypes: ["Category", "Licence", "Passport"],
+	tagTypes: [
+		"Category",
+		"Licence",
+		"Passport",
+		"RealEstate",
+		"Equipment",
+		"DigitalId",
+	],
 	reducerPath: "/adminApi",
 	endpoints: (build) => ({
 		addCategory: build.mutation({
@@ -126,6 +133,113 @@ export const adminApi = createApi({
 				{ type: "Passport", _id: arg },
 			],
 		}),
+
+		//property
+		getAllRealEstate: build.query({
+			query: (payload) => ({
+				url: "admin/property/realestate",
+				params: payload,
+			}),
+			providesTags: (result, error, args) =>
+				result?.data
+					? [
+							...(result?.data || []).map(({ _id }) => ({
+								type: "RealEstate",
+								_id,
+							})),
+							"RealEstate",
+					  ]
+					: ["RealEstate"],
+		}),
+		getRealEstate: build.query({
+			query: (payload) => ({
+				url: `property/realestate/${payload}`,
+			}),
+			providesTags: (result, error, arg) => [
+				{ type: "RealEstate", _id: arg },
+			],
+		}),
+		updateRealEstateStatus: build.mutation({
+			query: (payload) => ({
+				url: "admin/property/realestate",
+				method: "PATCH",
+				body: payload,
+			}),
+			invalidatesTags: (result, error, arg) => [
+				{ type: "RealEstate", _id: arg._id },
+			],
+		}),
+
+		getAllEquipment: build.query({
+			query: (payload) => ({
+				url: "admin/property/equipment",
+				params: payload,
+			}),
+			providesTags: (result, error, args) =>
+				result?.data
+					? [
+							...(result?.data || []).map(({ _id }) => ({
+								type: "Equipment",
+								_id,
+							})),
+							"Equipment",
+					  ]
+					: ["Equipment"],
+		}),
+		getEquipment: build.query({
+			query: (payload) => ({
+				url: `property/equipment/${payload}`,
+			}),
+			providesTags: (result, error, arg) => [
+				{ type: "Equipment", _id: arg },
+			],
+		}),
+		updateEquipmentStatus: build.mutation({
+			query: (payload) => ({
+				url: "admin/property/equipment",
+				method: "PATCH",
+				body: payload,
+			}),
+			invalidatesTags: (result, error, arg) => [
+				{ type: "Equipment", _id: arg._id },
+			],
+		}),
+
+		//digital id
+		getAllDigitalId: build.query({
+			query: (payload) => ({
+				url: "admin/docs/digitalId",
+				params: payload,
+			}),
+			providesTags: (result, error, args) =>
+				result?.data
+					? [
+							...(result?.data || []).map(({ _id }) => ({
+								type: "DigitalId",
+								_id,
+							})),
+							"DigitalId",
+					  ]
+					: ["DigitalId"],
+		}),
+		getDigitalId: build.query({
+			query: (payload) => ({
+				url: `admin/docs/digitalId/${payload}`,
+			}),
+			providesTags: (result, error, arg) => [
+				{ type: "DigitalId", _id: arg },
+			],
+		}),
+		updateDigitalIdStatus: build.mutation({
+			query: (payload) => ({
+				url: "admin/docs/digitalId",
+				method: "PATCH",
+				body: payload,
+			}),
+			invalidatesTags: (result, error, arg) => [
+				{ type: "DigitalId", _id: arg._id },
+			],
+		}),
 	}),
 });
 
@@ -143,4 +257,18 @@ export const {
 	useGetAllPassportQuery,
 	useGetDrivingLiceneceQuery,
 	useGetPassportQuery,
+
+	//property
+	useGetAllRealEstateQuery,
+	useGetRealEstateQuery,
+	useUpdateRealEstateStatusMutation,
+
+	useGetAllEquipmentQuery,
+	useGetEquipmentQuery,
+	useUpdateEquipmentStatusMutation,
+
+	//digitalId
+	useGetAllDigitalIdQuery,
+	useGetDigitalIdQuery,
+	useUpdateDigitalIdStatusMutation,
 } = adminApi;

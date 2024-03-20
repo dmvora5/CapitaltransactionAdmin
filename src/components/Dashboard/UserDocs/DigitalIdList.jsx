@@ -1,31 +1,27 @@
-// import APICallStatushandler from "@/components/Shared/APICallStatushandler";
+import APICallStatushandler from "@/components/Shared/APICallStatushandler";
 import EllipsisPagination from "@/components/Shared/EllipsisPagination";
 import Search from "@/components/Shared/Search";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { limit } from "@/constant";
 import { PATH } from "@/path";
-import { useGetAllDrivingLicenceQuery } from "@/redux/api/adminApi";
+import { useGetAllDigitalIdQuery } from "@/redux/api/adminApi";
 import Link from "next/link";
 import React, { useState } from "react";
-import moment from "moment";
-import Loader from "@/components/Shared/Loader";
 
-const DrivingLicenceList = () => {
+const DigitalIdList = () => {
 	const [page, setPage] = useState(1);
 	const [search, setSearch] = useState();
 
 	const { data, isLoading, isSuccess, error, isError } =
-		useGetAllDrivingLicenceQuery({ page, limit: limit, search });
+		useGetAllDigitalIdQuery({ page, limit: limit, search });
 
 	return (
 		<>
-			{/* <APICallStatushandler
+			<APICallStatushandler
 				options={{ data, isLoading, isSuccess, error, isError }}
-			/> */}
-			{isLoading && <Loader />}
+			/>
 			<h2 className="font-medium text-3xl text-[#333333]">
-				Driving Licenece List
+				Digital Id List
 			</h2>
 			<div className="bg-white space-y-4 p-6 mt-8">
 				<Search
@@ -45,16 +41,16 @@ const DrivingLicenceList = () => {
 									Full Name
 								</th>
 								<th scope="col" className="py-3 px-6 border">
-									Customer Id
+									Card No.
 								</th>
 								<th scope="col" className="py-3 px-6 border">
-									Dob
+									Email
 								</th>
 								<th scope="col" className="py-3 px-6 border">
-									Gender
+									Phone No.
 								</th>
 								<th scope="col" className="py-3 px-6 border">
-									Address
+									Country
 								</th>
 								<th scope="col" className="py-3 px-6 border">
 									Action
@@ -70,26 +66,25 @@ const DrivingLicenceList = () => {
 									<td className="py-2 px-6 border">
 										{(page - 1) * limit + (index + 1)}
 									</td>
-									<td className="py-2 px-6 border">
+									<td className="py-4 px-6 border">
 										{item.fullName}
 									</td>
-									<td className="py-2 px-6 border">
-										{item.customerId}
+									<td className="py-4 px-6 border">
+										{item.cardNo}
 									</td>
-									<td className="py-2 px-6 border">
-										{moment(item.dob).format("L")}
+									<td className="py-4 px-6 border">
+										{item.email}
 									</td>
-									<td className="py-2 px-6 border">
-										{item.gender}
+									<td className="py-4 px-6 border">
+										{item.phoneNo}
 									</td>
-									<td className="py-2 px-6 border">
-										{item.address?.slice(0, 20)}...
+									<td className="py-4 px-6 border">
+										{item.country}
 									</td>
-
 									<td className="py-2 flex justify-center gap-x-4 items-center px-2 border">
 										<Button variant="outline" size="sm">
 											<Link
-												href={`${PATH.userDocsLicence}${item._id}`}
+												href={`${PATH.userDocsDigitalId}${item._id}`}
 												variant="outline"
 												size="sm"
 											>
@@ -101,20 +96,20 @@ const DrivingLicenceList = () => {
 							))}
 						</tbody>
 					</table>
-					<div className="my-6 flex justify-center">
-						{data?.count > limit && (
+					{data?.count > limit && (
+						<div className="my-6 flex justify-center">
 							<EllipsisPagination
 								count={data?.count || 0}
 								limit={limit}
 								currentPage={page}
 								handlePageChange={setPage}
 							/>
-						)}
-					</div>
+						</div>
+					)}
 				</div>
 			</div>
 		</>
 	);
 };
 
-export default DrivingLicenceList;
+export default DigitalIdList;
